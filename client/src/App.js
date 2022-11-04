@@ -1,8 +1,10 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
-import PostsListPage from "./pages/PostsListPage";
-import PostFormPage from "./pages/PostFormPage";
-import ShowPostPage from "./pages/ShowPostPage";
+import ClassSearchPage from "./pages/ClassSearchPage";
+import MyClassesPage from "./pages/MyClassesPage";
+import FriendsPage from "./pages/FriendsPage";
+import ProfilePage from "./pages/ProfilePage";
+import LoginPage from "./pages/LoginPage";
 import AboutUsPage from "./pages/AboutUsPage";
 
 import "./App.css";
@@ -12,12 +14,27 @@ function Navigation(props) {
     <nav className="navbar navbar-expand-sm navbar-dark bg-dark shadow mb-3">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          Micro Blog
+          Study Buddies
         </Link>
         <ul className="navbar-nav me-auto">
           <li className="nav-item">
-            <NavLink className="nav-link" to="/posts/new">
-              Create a Micro Post
+            <NavLink className="nav-link" to="/my-classes">
+              My Classes
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/friends">
+              Friends
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/profile">
+              Profile
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className="nav-link" to="/login">
+              Log In
             </NavLink>
           </li>
           <li className="nav-item">
@@ -38,10 +55,12 @@ function App() {
       <div className="container-xl text-center">
         <div className="row justify-content-center">
           <Routes>
-            <Route path="/posts/new" element={<PostFormPage />} />
-            <Route path="/posts/:id" element={<ShowPostPage />} />
+            <Route path="/" element={<ClassSearchPage />} />
+            <Route path="/my-classes" element={<MyClassesPage />} />
+            <Route path="/friends" element={<FriendsPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/about-us" element={<AboutUsPage />} />
-            <Route path="/" element={<PostsListPage />} />
           </Routes>
         </div>
       </div>
