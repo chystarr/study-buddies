@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
+import HomePage from "./pages/HomePage";
 import ClassSearchPage from "./pages/ClassSearchPage";
 import MyClassesPage from "./pages/MyClassesPage";
 import FriendsPage from "./pages/FriendsPage";
@@ -20,6 +21,11 @@ function Navigation(props) {
           Study Buddies
         </Link>
         <ul className="navbar-nav me-auto">
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/class-search">
+              Class Search
+            </NavLink>
+          </li>
           <li className="nav-item">
             <NavLink className="nav-link" to="/my-classes">
               My Classes
@@ -71,7 +77,8 @@ function App() {
                   </PrivateRouteRequiresAuth>
                 }
               />
-              <Route path="/" element={<ClassSearchPage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="/class-search" element={<ClassSearchPage />} />
               <Route path="/my-classes" element={<MyClassesPage />} />
               <Route path="/friends" element={<FriendsPage />} />
               <Route path="/profile" element={<ProfilePage />} />
