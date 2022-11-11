@@ -6,8 +6,11 @@ import FriendsPage from "./pages/FriendsPage";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import AboutUsPage from "./pages/AboutUsPage";
+import { AuthProvider } from "./context/AuthContext";
+import AuthButton from "./components/AuthButton";
 
 import "./App.css";
+import PrivateRouteRequiresAuth from "./components/PrivateRouteRequiresAuth";
 
 function Navigation(props) {
   return (
@@ -44,27 +47,41 @@ function Navigation(props) {
           </li>
         </ul>
       </div>
+      <AuthButton />
     </nav>
   );
 }
 
+
 function App() {
   return (
-    <BrowserRouter>
-      <Navigation />
-      <div className="container-xl text-center">
-        <div className="row justify-content-center">
-          <Routes>
-            <Route path="/" element={<ClassSearchPage />} />
-            <Route path="/my-classes" element={<MyClassesPage />} />
-            <Route path="/friends" element={<FriendsPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/about-us" element={<AboutUsPage />} />
-          </Routes>
+    <AuthProvider>
+      <BrowserRouter>
+        <Navigation />
+        <div className="container-xl text-center">
+          <div className="row justify-content-center">
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/posts/new"
+                element={
+                  <PrivateRouteRequiresAuth>
+                    {/* In react-router v6 we protect routes like this */}
+                    <ClassSearchPage />
+                  </PrivateRouteRequiresAuth>
+                }
+              />
+              <Route path="/" element={<ClassSearchPage />} />
+              <Route path="/my-classes" element={<MyClassesPage />} />
+              <Route path="/friends" element={<FriendsPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/about-us" element={<AboutUsPage />} />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
