@@ -10,6 +10,10 @@ import AboutUsPage from "./pages/AboutUsPage";
 import { AuthProvider } from "./context/AuthContext";
 import AuthButton from "./components/AuthButton";
 
+import PostsListPage from "./pages/PostsListPage";
+import PostFormPage from "./pages/PostFormPage";
+import ShowPostPage from "./pages/ShowPostPage";
+
 import "./App.css";
 import PrivateRouteRequiresAuth from "./components/PrivateRouteRequiresAuth";
 
@@ -51,6 +55,16 @@ function Navigation(props) {
               About Us
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/all-posts">
+              View All Posts (Test)
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/posts/new">
+              New Post (Test)
+            </NavLink>
+          </li>
         </ul>
       </div>
       <AuthButton />
@@ -73,7 +87,7 @@ function App() {
                 element={
                   <PrivateRouteRequiresAuth>
                     {/* In react-router v6 we protect routes like this */}
-                    <ClassSearchPage />
+                    <PostFormPage />
                   </PrivateRouteRequiresAuth>
                 }
               />
@@ -82,8 +96,9 @@ function App() {
               <Route path="/my-classes" element={<MyClassesPage />} />
               <Route path="/friends" element={<FriendsPage />} />
               <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/login" element={<LoginPage />} />
               <Route path="/about-us" element={<AboutUsPage />} />
+              <Route path="/posts/:id" element={<ShowPostPage />} />
+              <Route path="/all-posts" element={<PostsListPage />} />
             </Routes>
           </div>
         </div>
