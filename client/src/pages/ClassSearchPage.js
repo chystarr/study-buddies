@@ -1,4 +1,5 @@
 import React from "react";
+import ClassCard from "../components/ClassCard";
 
 function ClassSearchPage() {
   return(
@@ -8,7 +9,7 @@ function ClassSearchPage() {
             <div className="input-group">
               <input
                 type="text"
-                placeholder="Add your words of wisdom here..."
+                placeholder="Enter a class name"
                 className="form-control"
                 autoFocus
               />
@@ -18,8 +19,7 @@ function ClassSearchPage() {
             </div>
           </form>
         </div>
-
-        <p>Classes will show up as search results here</p>
+        <ClassCard id={1}/>
       </div>
   );
 }

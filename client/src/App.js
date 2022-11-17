@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ClassSearchPage from "./pages/ClassSearchPage";
 import MyClassesPage from "./pages/MyClassesPage";
+import ClassDetailsPage from "./pages/ClassDetailsPage";
 import FriendsPage from "./pages/FriendsPage";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
@@ -93,10 +94,12 @@ function App() {
               />
               <Route path="/" element={<HomePage />} />
               <Route path="/class-search" element={<ClassSearchPage />} />
+              <Route path="/classes/:id" element={<ClassDetailsPage />} />
               <Route path="/my-classes" element={<MyClassesPage />} />
               <Route path="/friends" element={<FriendsPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/about-us" element={<AboutUsPage />} />
+
               <Route path="/posts/:id" element={<ShowPostPage />} />
               <Route path="/all-posts" element={<PostsListPage />} />
             </Routes>
