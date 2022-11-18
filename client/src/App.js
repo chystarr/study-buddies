@@ -5,6 +5,7 @@ import ClassSearchPage from "./pages/ClassSearchPage";
 import MyClassesPage from "./pages/MyClassesPage";
 import ClassDetailsPage from "./pages/ClassDetailsPage";
 import MyGroupsPage from "./pages/MyGroupsPage";
+import GroupDetailsPage from "./pages/GroupDetailsPage";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import AboutUsPage from "./pages/AboutUsPage";
@@ -98,6 +99,8 @@ function App() {
               <Route path="/classes/:id" element={<ClassDetailsPage />} />
 
               <Route path="/my-groups" element={<MyGroupsPage />} />
+              <Route path="/groups/:id" element={<GroupDetailsPage />} />
+
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/about-us" element={<AboutUsPage />} />
 
