@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import ClassSearchPage from "./pages/ClassSearchPage";
 import MyClassesPage from "./pages/MyClassesPage";
 import ClassDetailsPage from "./pages/ClassDetailsPage";
-import FriendsPage from "./pages/FriendsPage";
+import MyGroupsPage from "./pages/MyGroupsPage";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import AboutUsPage from "./pages/AboutUsPage";
@@ -37,8 +37,8 @@ function Navigation(props) {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink className="nav-link" to="/friends">
-              Friends
+            <NavLink className="nav-link" to="/my-groups">
+              My Groups
             </NavLink>
           </li>
           <li className="nav-item">
@@ -94,9 +94,10 @@ function App() {
               />
               <Route path="/" element={<HomePage />} />
               <Route path="/class-search" element={<ClassSearchPage />} />
-              <Route path="/classes/:id" element={<ClassDetailsPage />} />
               <Route path="/my-classes" element={<MyClassesPage />} />
-              <Route path="/friends" element={<FriendsPage />} />
+              <Route path="/classes/:id" element={<ClassDetailsPage />} />
+
+              <Route path="/my-groups" element={<MyGroupsPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/about-us" element={<AboutUsPage />} />
 
