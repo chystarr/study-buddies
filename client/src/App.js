@@ -8,6 +8,7 @@ import MyGroupsPage from "./pages/MyGroupsPage";
 import GroupDetailsPage from "./pages/GroupDetailsPage";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import { AuthProvider } from "./context/AuthContext";
 import AuthButton from "./components/AuthButton";
@@ -52,6 +53,11 @@ function Navigation(props) {
               Log In
             </NavLink>
           </li>
+          <li>
+            <NavLink className="nav-link" to="/sign-up">
+              Sign Up
+            </NavLink>
+          </li>
           <li className="nav-item">
             <NavLink className="nav-link" to="/about-us">
               About Us
@@ -84,6 +90,7 @@ function App() {
           <div className="row justify-content-center">
             <Routes>
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/sign-up" element={<SignUpPage />} />
               <Route
                 path="/posts/new"
                 element={
@@ -106,6 +113,7 @@ function App() {
 
               <Route path="/posts/:id" element={<ShowPostPage />} />
               <Route path="/all-posts" element={<PostsListPage />} />
+              
             </Routes>
           </div>
         </div>

@@ -9,6 +9,12 @@ function LoginPage() {
   const [data, setData] = useState({ email: "", password: "" });
   const [error, setError] = useState(false);
 
+  // navigation
+  
+  const navigateToSignUp = () => {
+    navigate('/sign-up');
+  }
+
   const from = location.state?.from?.pathname || "/";
 
   const fieldChanged = (name) => {
@@ -74,6 +80,7 @@ function LoginPage() {
           </button>
         </div>
       </form>
+      <button className = "btn btn-info" onClick={navigateToSignUp}>Don't have an account? Sign up here.</button>
     </div>
   );
 }
