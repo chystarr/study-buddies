@@ -1,1 +1,18 @@
 /* Add custom CSS here */
+#header-home {
+    font-weight: bold;
+    font-size: 30px;
+
+}
+
+#p-home {
+    font-weight: normal;
+    font-size: 20px;
+}
+
+#about-us , #view-git-button {
+    display: inline;
+    width: 150px;
+    height: 40px;
+    padding-inline-end: 10px;   
+}
