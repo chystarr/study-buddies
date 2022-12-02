@@ -2,21 +2,21 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Class extends Model {}
+  class Subject extends Model {}
 
-  Class.init(
+  Subject.init(
     {
-      className: { type: DataTypes.STRING },
+      subjectName: { type: DataTypes.STRING },
     },
     {
       sequelize,
-      modelName: "Class",
+      modelName: "Subject",
     }
   );
 
-  Class.associate = (models) => {
+  Subject.associate = (models) => {
     // associations can be defined here
   };
 
-  return Class;
+  return Subject;
 };
