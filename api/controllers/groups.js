@@ -49,7 +49,7 @@ router.put("/:id", passport.isAuthenticated(), (req, res) => {
       return res.sendStatus(404);
     }
 
-    group.content = req.body.content;
+    group.groupName = req.body.groupName;
     group
       .save()
       .then((updatedGroup) => {

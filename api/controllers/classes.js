@@ -49,7 +49,9 @@ router.put("/:id", passport.isAuthenticated(), (req, res) => {
       return res.sendStatus(404);
     }
 
-    classWithId.content = req.body.content;
+    classWithId.className = req.body.className;
+    classWithId.subjectName = req.body.subjectName;
+    classWithId.schoolName = req.body.schoolName;
     classWithId
       .save()
       .then((updatedClass) => {
