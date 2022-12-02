@@ -5,11 +5,13 @@ const router = express.Router();
 const microPostsController = require("./microPosts.js");
 const authController = require("./auth.js");
 const classesController = require("./classes.js");
+const groupsController = require("./groups.js");
 
 // Mount each controller under a specific route. These
 // will be prefixes to all routes defined inside the controller
 router.use("/auth", authController);
 router.use("/micro_posts", microPostsController);
 router.use("/classes", classesController);
+router.use("/groups", groupsController);
 
 module.exports = router;
