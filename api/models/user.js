@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      major: { type: DataTypes.STRING },
     },
     {
       sequelize,
@@ -39,7 +40,8 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.associate = (models) => {
-    // associations can be defined here
+    // association that gives the Users table a SchoolId column
+    models.User.belongsTo(models.School);
   };
 
   User.beforeSave((user, options) => {

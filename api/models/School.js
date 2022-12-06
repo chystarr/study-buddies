@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
   School.associate = (models) => {
     // association that gives the Classes table a SchoolId column
     models.School.hasMany(models.Class);
+    // association that gives the Users table a SchoolId column
+    models.School.hasMany(models.User);
   };
 
   return School;

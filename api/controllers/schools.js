@@ -21,7 +21,8 @@ router.get("/", (req, res) => {
   School.findAll({}).then((allSchools) => res.json(allSchools));
 });
 
-router.post("/", passport.isAuthenticated(), (req, res) => {
+// removed passport.isAuthenticated() parameter for testing purposes
+router.post("/", (req, res) => {
   School.create({ schoolName: req.body.schoolName })
     .then((newSchool) => {
       res.status(201).json(newSchool);
