@@ -42,6 +42,11 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = (models) => {
     // association that gives the Users table a SchoolId column
     models.User.belongsTo(models.School);
+    // association that creates the GroupMembership join table with GroupId and UserId columns
+    models.User.belongsToMany(models.Group, { through: 'GroupMembership' });
+    // association that creates the ClassEnrollment join table with ClassId and UserId columns
+    models.User.belongsToMany(models.Class, { through: 'ClassEnrollment' });
+
   };
 
   User.beforeSave((user, options) => {

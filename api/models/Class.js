@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     // associations that give the Classes table SubjectId and SchoolId columns
     models.Class.belongsTo(models.Subject);
     models.Class.belongsTo(models.School);
+    // association that creates the ClassMembership join table with ClassId and UserId columns
+    models.Class.belongsToMany(models.User, { through: 'ClassEnrollment' });
   };
 
   return Class;
