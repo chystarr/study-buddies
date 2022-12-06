@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Group.associate = (models) => {
-    // associations can be defined here
+    // association that gives a the Groups table a ClassId column
+    models.Group.belongsTo(models.Class);
   };
 
   return Group;

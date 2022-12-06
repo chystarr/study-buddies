@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", passport.isAuthenticated(), (req, res) => {
-  Group.create({ groupName: req.body.groupName })
+  Group.create({ groupName: req.body.groupName, ClassId: req.body.ClassId })
     .then((newGroup) => {
       res.status(201).json(newGroup);
     })

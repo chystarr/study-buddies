@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Subject.associate = (models) => {
-    // associations can be defined here
+    // association that gives the Classes table a SubjectId column
+    models.Subject.hasMany(models.Class);
   };
 
   return Subject;

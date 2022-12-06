@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", passport.isAuthenticated(), (req, res) => {
-  Class.create({ className: req.body.className })
+  Class.create({ className: req.body.className, SubjectId: req.body.SubjectId, SchoolId: req.body.SchoolId })
     .then((newClass) => {
       res.status(201).json(newClass);
     })
