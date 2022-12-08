@@ -2,7 +2,7 @@ const express = require("express");
 const passport = require("../middlewares/authentication");
 const router = express.Router();
 const db = require("../models");
-const { Class } = db;
+const { Class, School } = db;
 
 // This is a simple example for providing basic CRUD routes for
 // a resource/model. It provides the following:
@@ -18,7 +18,12 @@ const { Class } = db;
 //    /classes comes from the file ./classes.js
 
 router.get("/", (req, res) => {
-  Class.findAll({}).then((allClasses) => res.json(allClasses));
+  // Class.findAll({}).then((allClasses) => res.json(allClasses));
+  Class.findAll({
+    include: {
+      model: School
+    }
+  }).then((allClasses) => res.json(allClasses));
 });
 
 router.post("/", passport.isAuthenticated(), (req, res) => {

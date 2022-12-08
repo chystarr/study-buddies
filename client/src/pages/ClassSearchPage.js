@@ -31,30 +31,37 @@
 //   );
 // }
 
-import React, {useState} from "react";
 
-
+import React, {useState, useEffect} from 'react';
 
 function ClassSearchPage() {
-  const dataList = [
-    {
-      "id" : 1,
-      "className" : "Advanced Math",
-      "SchoolId" : "CCNY",
-      "SubjectId" : "Math"
-    },
-
-    {
-      "id" : 2,
-      "className" : "Bridge to Applied Science",
-      "SchoolId" : "CCNY",
-      "SubjectId" : "Science"
-    } 
-  ];
   
-  const [searchText, setSearchText] = useState("");
-  const [data, setData] = useState(dataList);
 
+  const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(false);
+  const [initialData, setInitialData] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      setLoading(true);
+      try {
+        let response = await fetch("/api/classes");
+        let allClasses = await response.json();
+        setData(allClasses);
+        setInitialData(allClasses);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching all classes", error);
+        setError(true);
+      }
+    }
+
+    getData();
+
+  }, []);
+  
   // exclude column list from filter
   const excludeColumns = ["SchoolId", "SubjectId"];
 
@@ -67,9 +74,10 @@ function ClassSearchPage() {
   // filter records by search text
   const filterData = (value) => {
     const lowercasedValue = value.toLowerCase().trim();
-    if (lowercasedValue === "") setData(dataList);
+    if (lowercasedValue === "") setData(initialData);
+    // if(lowercasedValue === "") setInitialData(initialData);
     else {
-      const filteredData = dataList.filter(item => {
+      const filteredData = data.filter(item => {
         return Object.keys(item).some(key =>
           excludeColumns.includes(key) ? false : item[key].toString().toLowerCase().includes(lowercasedValue)
         );
@@ -104,88 +112,5 @@ function ClassSearchPage() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function Class(props) {
-// 	return (
-// 	  <div className ="row mt-5 mb-5">
-// 		<div className ="col border rounded">
-// 		  <div>
-// 			{props.info.className}
-// 		  </div>
-// 		  <div className="mt-3">
-// 			<ul>
-// 			  <li>School Name: {props.info.SchoolId}</li>
-// 			  <li>Subject Name: {props.info.SubjectId}</li>
-// 			</ul>
-// 		  </div>
-// 		</div>
-// 	  </div>
-// 	);
-  
-// }
-
-// function ClassSearchField(props) {
-// 	return(
-// 	  <div className="row mt-5">
-// 		<div className="col">
-// 		  <label htmlFor="className">Class Name:</label>
-// 		</div>
-// 		<div>
-// 		  <input type="text" className="form-control" placeholder="Enter a class name" onChange={props.handleChange}></input>
-// 		</div>
-// 	  </div>
-  
-// 	);
-// }
-
-// function ClassSearchPage() {
-// 	const [query, setQuery] = useState(null);
-// 	const [results, setResult] = useState([]);
-  
-// 	function handleChange(event) {
-// 	  const classesName = event.target.value;
-// 	  setQuery(classesName);
-  
-// 	  if(classesName.length > 1){
-// 		fetch(`http://localhost:8080/api/classes/${query}`)
-// 		.then((res) => res.json())
-// 		.then((data) => {
-// 		  const classes  = data.map((classesName) => {
-// 			return <Class key={data} info ={classesName}/>
-// 		  })
-// 		  setResult(classes);
-// 		})
-// 		.catch((error) => {
-// 		  setResult([]);
-// 		})
-// 	  } else {  
-// 		setResult([]);
-// 	  }
-// 	}
-  
-// 	return (
-// 	  <div className="App">
-		
-// 		<div className="mx-auto" style={{ maxWidth: 400 }}>
-// 		  <ClassSearchField handleChange = {handleChange}/>
-// 		  { results.length !== 0 ? results : <div className="mt-4"><strong>No results found</strong></div> }
-// 		</div>
-// 	  </div>
-// 	);
-//   }
-
-
+   
 export default ClassSearchPage;
