@@ -2,7 +2,8 @@ const express = require("express");
 const passport = require("../middlewares/authentication");
 const router = express.Router();
 const db = require("../models");
-const { Class, School } = db;
+const { Class, School, User } = db;
+
 
 // This is a simple example for providing basic CRUD routes for
 // a resource/model. It provides the following:
@@ -11,6 +12,10 @@ const { Class, School } = db;
 //    GET    /api/classes/:id
 //    PUT    /api/classes/:id
 //    DELETE /api/classes/:id
+//
+// More routes:
+//    POST   /api/classes/:id/enroll/:userId
+//    Enrolls a certain user in a certain class (adds row to ClassEnrollment table)
 //
 // The full URL's for these routes are composed by combining the
 // prefixes used to load the controller files.
@@ -34,6 +39,26 @@ router.post("/", passport.isAuthenticated(), (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
+});
+
+router.post("/:id/enroll/:userId", passport.isAuthenticated(), async (req, res) => {
+  const { id, userId } = req.params;
+  const classWithId = await Class.findByPk(id);
+  if (!classWithId) {
+    return res.sendStatus(404);
+  }
+  const userWithId = await User.findByPk(userId);
+  if (!userWithId) {
+    return res.sendStatus(404);
+  }
+
+  classWithId.addUser(userWithId)
+  .then((enrollmentInfo) => {
+    res.status(201).json(enrollmentInfo);
+  })
+  .catch((err) => {
+    res.status(400).json(err);
+  });
 });
 
 router.get("/:id", (req, res) => {
