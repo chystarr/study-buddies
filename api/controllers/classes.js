@@ -45,12 +45,10 @@ router.post("/:id/enroll/:userId", passport.isAuthenticated(), async (req, res) 
   if (!userWithId) {
     return res.sendStatus(404);
   }
-  //await classWithId.addUser(userWithId);
-  //res.status(201);
-  //classWithId.addUser(userWithId).then(res.status(201));
+
   classWithId.addUser(userWithId)
-  .then((enrollment) => {
-    res.status(201).json(enrollment);
+  .then((enrollmentInfo) => {
+    res.status(201).json(enrollmentInfo);
   })
   .catch((err) => {
     res.status(400).json(err);

@@ -2,7 +2,7 @@ const express = require("express");
 const passport = require("../middlewares/authentication");
 const router = express.Router();
 const db = require("../models");
-const { Group } = db;
+const { Group, User } = db;
 
 // This is a simple example for providing basic CRUD routes for
 // a resource/model. It provides the following:
@@ -11,6 +11,10 @@ const { Group } = db;
 //    GET    /api/groups/:id
 //    PUT    /api/groups/:id
 //    DELETE /api/groups/:id
+//
+// More routes:
+//    POST   /api/groups/:id/join/:userId
+//    Lets a certain user join a certain group (adds row to GroupMembership table)
 //
 // The full URL's for these routes are composed by combining the
 // prefixes used to load the controller files.
@@ -29,6 +33,26 @@ router.post("/", passport.isAuthenticated(), (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
+});
+
+router.post("/:id/join/:userId", passport.isAuthenticated(), async (req, res) => {
+  const { id, userId } = req.params;
+  const groupWithId = await Group.findByPk(id);
+  if (!groupWithId) {
+    return res.sendStatus(404);
+  }
+  const userWithId = await User.findByPk(userId);
+  if (!userWithId) {
+    return res.sendStatus(404);
+  }
+
+  groupWithId.addUser(userWithId)
+  .then((membershipInfo) => {
+    res.status(201).json(membershipInfo);
+  })
+  .catch((err) => {
+    res.status(400).json(err);
+  });
 });
 
 router.get("/:id", (req, res) => {
