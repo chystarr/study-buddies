@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ErrorAlert from "../components/ErrorAlert";
 import LoadingSpinner from "../components/LoadingSpinner";
+import StudentCard from "../components/StudentCard";
 
 function ClassDetailsPage() {
   const [classInfo, setClassInfo] = useState(null);
+  const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   let params = useParams();
@@ -12,9 +14,12 @@ function ClassDetailsPage() {
   useEffect(() => {
     async function getData () {
       try {
-        let response = await fetch("/api/classes/" + params.id);
-        let classData = await response.json();
-        setClassInfo(classData);
+        let classInfoResponse = await fetch("/api/classes/" + params.id);
+        let classInfoData = await classInfoResponse.json();
+        setClassInfo(classInfoData);
+        let studentsResponse = await fetch("/api/classes/" + params.id + "/students");
+        let studentsData = await studentsResponse.json();
+        setStudents(studentsData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching /api/classes/" + params.id, error);
@@ -40,8 +45,11 @@ function ClassDetailsPage() {
 
   return (
     <div>
-    {classInfo.className}
-    <p>Class details page</p>
+    <p>This is the {classInfo.className} details page</p>
+    <p>Enrolled students:</p>
+    {students.map((studentData) => (
+      <StudentCard firstName={studentData.firstName} lastName={studentData.lastName} major={studentData.major} key={studentData.id} />
+    ))}
     </div>
   );
 }

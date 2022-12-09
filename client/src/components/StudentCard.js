@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 // should have link to specific profile page in the future
 function StudentCard({ firstName, lastName, major }) {
