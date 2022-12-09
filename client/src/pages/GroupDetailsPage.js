@@ -6,6 +6,7 @@ import StudentCard from "../components/StudentCard";
 
 function GroupDetailsPage() {
   const [groupInfo, setGroupInfo] = useState(null);
+  const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   let params = useParams();
@@ -13,9 +14,12 @@ function GroupDetailsPage() {
   useEffect(() => {
     async function getData () {
       try {
-        let response = await fetch("/api/groups/" + params.id);
-        let groupData = await response.json();
-        setGroupInfo(groupData);
+        let groupInfoResponse = await fetch("/api/groups/" + params.id);
+        let groupInfoData = await groupInfoResponse.json();
+        setGroupInfo(groupInfoData);
+        let membersResponse = await fetch("/api/groups/" + params.id + "/members");
+        let membersData = await membersResponse.json();
+        setMembers(membersData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching /api/groups/" + params.id, error);
@@ -41,9 +45,11 @@ function GroupDetailsPage() {
 
   return (
     <div>
-    {groupInfo.groupName}
-    <p>Group details page</p>
-    <StudentCard/>
+    <p>This is the {groupInfo.groupName} details page</p>
+    <p>Group members:</p>
+    {members.map((memberData) => (
+      <StudentCard firstName={memberData.firstName} lastName={memberData.lastName} major={memberData.major} key={memberData.id} />
+    ))}
     <p>Add discussion/comment section here</p>
   </div>
   );
