@@ -32,16 +32,6 @@ function Navigation(props) {
               Profile
             </NavLink>
           </li>
-          <li>
-            <NavLink className="nav-link" to="/login">
-              Log In
-            </NavLink>
-          </li>
-          <li>
-            <NavLink className="nav-link" to="/sign-up">
-              Sign Up
-            </NavLink>
-          </li>
           <li className="nav-item">
             <NavLink className="nav-link" to="/about-us">
               About Us
