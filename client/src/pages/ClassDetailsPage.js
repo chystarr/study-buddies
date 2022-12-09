@@ -3,10 +3,12 @@ import { useParams } from "react-router-dom";
 import ErrorAlert from "../components/ErrorAlert";
 import LoadingSpinner from "../components/LoadingSpinner";
 import StudentCard from "../components/StudentCard";
+import GroupCard from "../components/GroupCard";
 
 function ClassDetailsPage() {
   const [classInfo, setClassInfo] = useState(null);
   const [students, setStudents] = useState([]);
+  const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [clickedEnroll, setClickedEnroll] = useState(false);
@@ -18,9 +20,16 @@ function ClassDetailsPage() {
         let classInfoResponse = await fetch("/api/classes/" + params.id);
         let classInfoData = await classInfoResponse.json();
         setClassInfo(classInfoData);
+
         let studentsResponse = await fetch("/api/classes/" + params.id + "/students");
         let studentsData = await studentsResponse.json();
         setStudents(studentsData);
+
+        // /api/groups/class/:id
+        let groupsResponse = await fetch("/api/groups/class/" + params.id);
+        let groupsData = await groupsResponse.json();
+        setGroups(groupsData);
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching /api/classes/" + params.id, error);
@@ -78,6 +87,10 @@ function ClassDetailsPage() {
     <p>Enrolled students:</p>
     {students.map((studentData) => (
       <StudentCard firstName={studentData.firstName} lastName={studentData.lastName} major={studentData.major} key={studentData.id} />
+    ))}
+    <p>Study groups:</p>
+    {groups.map((groupData) => (
+      <GroupCard id={groupData.id} groupName={groupData.groupName} className={classInfo.className} key={groupData.id} />
     ))}
     </div>
   );
