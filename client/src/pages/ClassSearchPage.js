@@ -33,6 +33,9 @@
 
 
 import React, {useState, useEffect} from 'react';
+import ClassCard from "../components/ClassCard";
+import ErrorAlert from "../components/ErrorAlert";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function ClassSearchPage() {
   
@@ -61,6 +64,15 @@ function ClassSearchPage() {
     getData();
 
   }, []);
+
+  if (error) {
+    return(
+      <ErrorAlert details={"Error fetching /api/classes"} />
+    );
+  }
+  if (loading) {
+    return <LoadingSpinner />;
+  }
   
   // exclude column list from filter
   const excludeColumns = ["SchoolId", "SubjectId"];
@@ -89,23 +101,17 @@ function ClassSearchPage() {
   return (
     <div>
       <div className="row mt-5">
-		<div className="col">
-		  <label htmlFor="className">Class Name:</label>
-		</div>
-		<div>
-		  <input type="text" className="form-control" onChange={e => handleChange(e.target.value)} placeholder="Enter a class name"></input>
-		</div>
-	  </div>
+		    <div className="col">
+		      <label htmlFor="className">Class Name:</label>
+		    </div>
+		    <div>
+		      <input type="text" className="form-control" onChange={e => handleChange(e.target.value)} placeholder="Enter a class name"></input>
+		    </div>
+	    </div>
       <div className="row mt-5 mb-5">
-        {data.map((d, i) => {
-          return <div key={i} className="mt-3">
-
-            <b>Class Name: </b>{d.className}<br />
-            <b>School: </b>{d.SchoolId}<br />
-            <b>Subject: </b>{d.SubjectId}<br />
-            
-          </div>
-        })}
+        {data.map((classData) => (
+          <ClassCard id={classData.id} className={classData.className} subjectId={classData.subjectId} schoolId={classData.schoolId} key={classData.id}/>
+        ))}
         
         {data.length === 0 && <span>No results found</span>}
       </div>

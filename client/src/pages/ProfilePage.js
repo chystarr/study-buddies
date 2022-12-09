@@ -39,7 +39,7 @@ function ProfilePage() {
 
   if (error) {
     return(
-      <ErrorAlert details={"Error fetching /api/enrolled/ or /api/groups/joined"} />
+      <ErrorAlert details={"Error fetching /api/enrolled or /api/groups/joined"} />
     );
   }
   if (loading) {
@@ -52,7 +52,7 @@ function ProfilePage() {
         <p>The user's info is displayed here</p>
         <p>My Classes</p>
         {classes.map((classData) => (
-          <ClassCard id={classData.id} className={classData.className} key={classData.id} />
+          <ClassCard id={classData.id} className={classData.className} subjectId={classData.subjectId} schoolId={classData.schoolId} key={classData.id} />
         ))}
         <p>My Groups</p>
         {groups.map((groupData) => (
