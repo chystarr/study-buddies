@@ -25,7 +25,6 @@ function ClassDetailsPage() {
         let studentsData = await studentsResponse.json();
         setStudents(studentsData);
 
-        // /api/groups/class/:id
         let groupsResponse = await fetch("/api/groups/class/" + params.id);
         let groupsData = await groupsResponse.json();
         setGroups(groupsData);
@@ -74,9 +73,9 @@ function ClassDetailsPage() {
 
   function EnrollButton() {
     if (!clickedEnroll) {
-      return(<button onClick={handleClick}>Enroll</button>);
+      return <button onClick={handleClick}>Enroll</button>;
     } else {
-      return (<button>Already enrolled</button>)
+      return <button>Already enrolled</button>;
     }
   }
 
