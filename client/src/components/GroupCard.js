@@ -4,13 +4,40 @@ import ErrorAlert from "../components/ErrorAlert";
 
 function GroupCard({ id, groupName, className }) {
   const [error, setError] = useState(false);
-  const[clickedJoin, setClickedJoin] = useState(false);
+  const[alreadyJoined, setAlreadyJoined] = useState(false);
+
+  useEffect(() => {
+    // is the current user already a member of this group?
+    async function getData () {
+      try {
+        let groupsResponse = await fetch("/api/groups/joined");
+        let groupsData = await groupsResponse.json();
+        
+        for (const group of groupsData) {
+          // if this group has already been joined by the current user
+          if (group.id === id) {
+            setAlreadyJoined(true);
+          }
+        }
+
+      } catch (error) {
+        console.error("Error fetching /api/groups/joined", error);
+        setError(true);
+      }
+    }
+    
+    getData();
+
+    return () => {
+      // clean up function
+    };
+  }, [id]);
 
   useEffect(() => {
     return () => {
       // clean up function
     };
-  }, [clickedJoin]);
+  }, [alreadyJoined]);
 
   if (error) {
     return(
@@ -27,7 +54,7 @@ function GroupCard({ id, groupName, className }) {
       });
 
       if (response.ok) {
-        setClickedJoin(true);
+        setAlreadyJoined(true);
       } else {
         setError(true);
       }
@@ -38,7 +65,7 @@ function GroupCard({ id, groupName, className }) {
   };
 
   function JoinButton() {
-    if (!clickedJoin) {
+    if (!alreadyJoined) {
       return <button onClick={handleClick}>Join Group</button>
     } else {
       return <Link to={"/groups/" + id}><button>Group Details</button></Link>
