@@ -9,6 +9,7 @@ function ClassDetailsPage() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [clickedEnroll, setClickedEnroll] = useState(false);
   let params = useParams();
 
   useEffect(() => {
@@ -32,7 +33,7 @@ function ClassDetailsPage() {
     return () => {
       // clean up function
     };
-  }, [params.id]);
+  }, [params.id, clickedEnroll]);
 
   if (error) {
     return(
@@ -43,9 +44,37 @@ function ClassDetailsPage() {
     return <LoadingSpinner />;
   }
 
+  const handleClick = async (event) => {
+    event.preventDefault();
+    try {
+      let response = await fetch("/api/classes/" + params.id + "/enroll", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        setClickedEnroll(true);
+      } else {
+        setError(true);
+      }
+    } catch (error) {
+      console.error("Server error while enrolling in a class", error);
+      setError(true);
+    }
+  };
+
+  function EnrollButton() {
+    if (!clickedEnroll) {
+      return(<button onClick={handleClick}>Enroll</button>);
+    } else {
+      return (<button>Already enrolled</button>)
+    }
+  }
+
   return (
     <div>
     <p>This is the {classInfo.className} details page</p>
+    <EnrollButton />
     <p>Enrolled students:</p>
     {students.map((studentData) => (
       <StudentCard firstName={studentData.firstName} lastName={studentData.lastName} major={studentData.major} key={studentData.id} />
