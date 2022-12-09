@@ -15,6 +15,8 @@ const { Group, User } = db;
 // More routes:
 //    POST   /api/groups/:id/join
 //    Lets the current user join a certain group (adds row to GroupMembership table)
+//    GET   /api/groups/:id/members
+//    Get a list of all students who are members of a certain group
 //
 // The full URL's for these routes are composed by combining the
 // prefixes used to load the controller files.
@@ -54,6 +56,15 @@ router.post("/:id/join", passport.isAuthenticated(), async (req, res) => {
   .catch((err) => {
     res.status(400).json(err);
   });
+});
+
+router.get("/:id/members", async (req, res) => {
+  const { id } = req.params;
+  const groupWithId = await Group.findByPk(id);
+  if (!groupWithId) {
+    return res.sendStatus(404);
+  }
+  Group.findByPk(id, { include: User }).then((groupInfo) => res.json(groupInfo.Users));
 });
 
 router.get("/:id", (req, res) => {
