@@ -17,6 +17,8 @@ const { Class, School, User } = db;
 //    Enrolls the current user in a certain class (adds row to ClassEnrollment table)
 //    GET   /api/classes/:id/students
 //    Get a list of all students enrolled in a certain class
+//    GET   /api/classes/enrolled
+//    Get a list of all classes that the current user is enrolled in
 //
 // The full URL's for these routes are composed by combining the
 // prefixes used to load the controller files.
@@ -30,6 +32,15 @@ router.get("/", (req, res) => {
       model: School
     }
   }).then((allClasses) => res.json(allClasses));
+});
+
+router.get("/enrolled", passport.isAuthenticated(), async (req, res) => {
+  const id = req.user.id;
+  const userWithId = await User.findByPk(id);
+  if (!userWithId) {
+    return res.sendStatus(404);
+  }
+  User.findByPk(id, { include: Class }).then((userInfo) => res.json(userInfo.Classes));
 });
 
 router.post("/", passport.isAuthenticated(), (req, res) => {
