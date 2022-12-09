@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Navigate} from "react-router-dom";
 
 export default function SignUpPage() {
     // States for registration
@@ -49,17 +50,43 @@ export default function SignUpPage() {
       setSubmitted(false);
     };
 
+
+
     // Handling the form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
       e.preventDefault();
       if (firstName === '' || lastName === ' ' || email === '' || password === '' || major === '') {
         setError(true);
-      } else {
-        setSubmitted(true);
-        setError(false);
       }
+      try {
+        let response = await fetch("/api/auth/signup", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            major: major
+          }),
+          
+        });
+  
+        if (response.ok) {
+          setSubmitted(true);
+        } else {
+          setError(true);
+        }
+      } catch (error) {
+        console.error("Server error while creating a new user", error);
+        setError(true);
+      } 
+      
     };
-
+    
 
     const handleReset = (e) => {
       setFirstName('');
@@ -95,6 +122,7 @@ export default function SignUpPage() {
         </div>
       );
     };
+    if(submitted) return <Navigate to="/" />;
    
     return (
         <div className="col-10 col-md-8 col-lg-7">
@@ -145,8 +173,7 @@ export default function SignUpPage() {
                 value={major}
                 onChange={handleMajor}
               />
-                
-
+              
 
               <button type="submit" className="btn btn-primary ml-auto">
                 Sign Up
