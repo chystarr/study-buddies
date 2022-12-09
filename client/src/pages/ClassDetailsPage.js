@@ -11,8 +11,36 @@ function ClassDetailsPage() {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [clickedEnroll, setClickedEnroll] = useState(false);
+  const [alreadyEnrolled, setAlreadyEnrolled] = useState(false);
   let params = useParams();
+
+  useEffect(() => {
+    // is the current user already enrolled in this class?
+    async function getData () {
+      try {
+        let classesResponse = await fetch("/api/classes/enrolled");
+        let classesData = await classesResponse.json();
+        
+        const id = Number(params.id);
+        for (const classData of classesData) {
+          // if the current user has already enrolled in this class
+          if (classData.id === id) {
+            setAlreadyEnrolled(true);
+          }
+        }
+
+      } catch (error) {
+        console.error("Error fetching /api/classes/enrolled", error);
+        setError(true);
+      }
+    }
+    
+    getData();
+
+    return () => {
+      // clean up function
+    };
+  }, [params.id]);
 
   useEffect(() => {
     async function getData () {
@@ -41,7 +69,7 @@ function ClassDetailsPage() {
     return () => {
       // clean up function
     };
-  }, [params.id, clickedEnroll]);
+  }, [params.id, alreadyEnrolled]);
 
   if (error) {
     return(
@@ -61,7 +89,7 @@ function ClassDetailsPage() {
       });
 
       if (response.ok) {
-        setClickedEnroll(true);
+        setAlreadyEnrolled(true);
       } else {
         setError(true);
       }
@@ -72,7 +100,7 @@ function ClassDetailsPage() {
   };
 
   function EnrollButton() {
-    if (!clickedEnroll) {
+    if (!alreadyEnrolled) {
       return <button onClick={handleClick}>Enroll</button>;
     } else {
       return <button>Already enrolled</button>;
