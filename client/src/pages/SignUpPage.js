@@ -4,9 +4,11 @@ import { useAuth } from "../context/AuthContext";
 
 export default function SignUpPage() {
     // States for registration
-    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [major, setMajor] = useState('');
 
     // navigation
     const navigate = useNavigate();
@@ -19,8 +21,13 @@ export default function SignUpPage() {
     const [error, setError] = useState(false);
    
     // Handling the name change
-    const handleName = (e) => {
-      setName(e.target.value);
+    const handleFirstName = (e) => {
+      setFirstName(e.target.value);
+      setSubmitted(false);
+    };
+
+    const handleLastName = (e) => {
+      setLastName(e.target.value);
       setSubmitted(false);
     };
    
@@ -36,15 +43,30 @@ export default function SignUpPage() {
       setSubmitted(false);
     };
    
+    // Handling the major change
+    const handleMajor = (e) => {
+      setMajor(e.target.value);
+      setSubmitted(false);
+    };
+
     // Handling the form submission
     const handleSubmit = (e) => {
       e.preventDefault();
-      if (name === '' || email === '' || password === '') {
+      if (firstName === '' || lastName === ' ' || email === '' || password === '' || major === '') {
         setError(true);
       } else {
         setSubmitted(true);
         setError(false);
       }
+    };
+
+
+    const handleReset = (e) => {
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPassword('');
+      setMajor('');
       
     };
    
@@ -56,7 +78,7 @@ export default function SignUpPage() {
           style={{
             display: submitted ? '' : 'none',
           }}>
-          <p>Your account under the name of {name} is successfully registered!</p>
+          <p>Your account under the name of {firstName} {lastName} is successfully registered!</p>
         </div>
       );
     };
@@ -87,9 +109,17 @@ export default function SignUpPage() {
                 type="text"
                 className="form-control"
                 name="name"
-                placeholder="Full Name"
-                value={name}
-                onChange={handleName}
+                placeholder="First Name"
+                value={firstName}
+                onChange={handleFirstName}
+              />
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={handleLastName}
               />
               <input
                 type="email"
@@ -106,13 +136,24 @@ export default function SignUpPage() {
                 placeholder="Password"
                 value={password}
                 onChange={handlePassword}
-              
+              />
+              <input
+                type="major"
+                className="form-control"
+                name="major"
+                placeholder="Major"
+                value={major}
+                onChange={handleMajor}
               />
                 
 
 
               <button type="submit" className="btn btn-primary ml-auto">
                 Sign Up
+              </button>
+
+              <button onClick={handleReset} className="btn btn-primary ml-auto">
+                Reset
               </button>
             </div>
           </form>
