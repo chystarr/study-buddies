@@ -13,8 +13,8 @@ const { Group, User } = db;
 //    DELETE /api/groups/:id
 //
 // More routes:
-//    POST   /api/groups/:id/join/:userId
-//    Lets a certain user join a certain group (adds row to GroupMembership table)
+//    POST   /api/groups/:id/join
+//    Lets the current user join a certain group (adds row to GroupMembership table)
 //
 // The full URL's for these routes are composed by combining the
 // prefixes used to load the controller files.
@@ -35,8 +35,9 @@ router.post("/", passport.isAuthenticated(), (req, res) => {
     });
 });
 
-router.post("/:id/join/:userId", passport.isAuthenticated(), async (req, res) => {
-  const { id, userId } = req.params;
+router.post("/:id/join", passport.isAuthenticated(), async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
   const groupWithId = await Group.findByPk(id);
   if (!groupWithId) {
     return res.sendStatus(404);

@@ -4,7 +4,6 @@ const router = express.Router();
 const db = require("../models");
 const { Class, School, User } = db;
 
-
 // This is a simple example for providing basic CRUD routes for
 // a resource/model. It provides the following:
 //    GET    /api/classes
@@ -14,8 +13,11 @@ const { Class, School, User } = db;
 //    DELETE /api/classes/:id
 //
 // More routes:
-//    POST   /api/classes/:id/enroll/:userId
-//    Enrolls a certain user in a certain class (adds row to ClassEnrollment table)
+//    POST   /api/classes/:id/enroll
+//    Enrolls the current user in a certain class (adds row to ClassEnrollment table)
+//    GET   /api/classes/:id/students
+//    Get a list of all students enrolled in a certain class (look at all rows in ClassEnrollment table
+//    with id of certain class, and return all students with their ids in those rows)
 //
 // The full URL's for these routes are composed by combining the
 // prefixes used to load the controller files.
@@ -23,7 +25,7 @@ const { Class, School, User } = db;
 //    /classes comes from the file ./classes.js
 
 router.get("/", (req, res) => {
-  // Class.findAll({}).then((allClasses) => res.json(allClasses));
+  //Class.findAll({}).then((allClasses) => res.json(allClasses));
   Class.findAll({
     include: {
       model: School
@@ -41,8 +43,9 @@ router.post("/", passport.isAuthenticated(), (req, res) => {
     });
 });
 
-router.post("/:id/enroll/:userId", passport.isAuthenticated(), async (req, res) => {
-  const { id, userId } = req.params;
+router.post("/:id/enroll", passport.isAuthenticated(), async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
   const classWithId = await Class.findByPk(id);
   if (!classWithId) {
     return res.sendStatus(404);
@@ -59,6 +62,10 @@ router.post("/:id/enroll/:userId", passport.isAuthenticated(), async (req, res) 
   .catch((err) => {
     res.status(400).json(err);
   });
+});
+
+router.get("/:id/students", (req, res) => {
+  Class.findAll({}).then((allClasses) => res.json(allClasses));
 });
 
 router.get("/:id", (req, res) => {
