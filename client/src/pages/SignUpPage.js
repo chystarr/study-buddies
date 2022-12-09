@@ -102,7 +102,7 @@ export default function SignUpPage() {
                 {errorMessage()}
                 {successMessage()}
             </div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} onReset={handleReset}>
             <div className="form-row">
               {errorMessage}
               <input
@@ -152,7 +152,7 @@ export default function SignUpPage() {
                 Sign Up
               </button>
 
-              <button onClick={handleReset} className="btn btn-primary ml-auto">
+              <button type="reset" onClick={handleReset} className="btn btn-primary ml-auto">
                 Reset
               </button>
             </div>
