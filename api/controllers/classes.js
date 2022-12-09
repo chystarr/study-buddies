@@ -13,7 +13,7 @@ const { Class, School, User } = db;
 //    DELETE /api/classes/:id
 //
 // More routes:
-//    POST   /api/classes/:id/enroll
+//    POST  /api/classes/:id/enroll
 //    Enrolls the current user in a certain class (adds row to ClassEnrollment table)
 //    GET   /api/classes/:id/students
 //    Get a list of all students enrolled in a certain class

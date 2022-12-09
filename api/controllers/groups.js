@@ -2,7 +2,7 @@ const express = require("express");
 const passport = require("../middlewares/authentication");
 const router = express.Router();
 const db = require("../models");
-const { Group, User } = db;
+const { Group, User, Class } = db;
 
 // This is a simple example for providing basic CRUD routes for
 // a resource/model. It provides the following:
@@ -13,7 +13,9 @@ const { Group, User } = db;
 //    DELETE /api/groups/:id
 //
 // More routes:
-//    POST   /api/groups/:id/join
+//    GET   /api/groups/class/:id
+//    Get a list of all groups associated with a certain class
+//    POST  /api/groups/:id/join
 //    Lets the current user join a certain group (adds row to GroupMembership table)
 //    GET   /api/groups/:id/members
 //    Get a list of all students who are members of a certain group
@@ -25,6 +27,15 @@ const { Group, User } = db;
 
 router.get("/", (req, res) => {
   Group.findAll({}).then((allGroups) => res.json(allGroups));
+});
+
+router.get("/class/:id", async (req, res) => {
+  const { id } = req.params;
+  const classWithId = await Class.findByPk(id);
+  if (!classWithId) {
+    return res.sendStatus(404);
+  }
+  Group.findAll({ where: {ClassId: id} }).then((classGroups) => res.json(classGroups));
 });
 
 router.post("/", passport.isAuthenticated(), (req, res) => {
