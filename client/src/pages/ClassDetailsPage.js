@@ -117,7 +117,7 @@ function ClassDetailsPage() {
     ))}
     <p>Study groups:</p>
     {groups.map((groupData) => (
-      <GroupCard id={groupData.id} groupName={groupData.groupName} className={classInfo.className} key={groupData.id} />
+      <GroupCard id={groupData.id} groupName={groupData.groupName} className={classInfo.className} enrolledInClass={alreadyEnrolled} key={groupData.id} />
     ))}
     </div>
   );

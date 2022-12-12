@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ErrorAlert from "../components/ErrorAlert";
 
-function GroupCard({ id, groupName, className }) {
+function GroupCard({ id, groupName, className, enrolledInClass }) {
   const [error, setError] = useState(false);
   const[alreadyJoined, setAlreadyJoined] = useState(false);
 
@@ -65,6 +65,9 @@ function GroupCard({ id, groupName, className }) {
   };
 
   function JoinButton() {
+    if (!enrolledInClass && !alreadyJoined) {
+      return <p>Enroll in {className} in order to join this group!</p>;
+    }
     if (!alreadyJoined) {
       return <button onClick={handleClick}>Join Group</button>
     } else {
