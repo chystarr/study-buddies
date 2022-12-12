@@ -110,7 +110,7 @@ function ClassSearchPage() {
 	    </div>
       <div className="row mt-5 mb-5">
         {data.map((classData) => (
-          <ClassCard id={classData.id} className={classData.className} subjectId={classData.subjectId} schoolId={classData.schoolId} key={classData.id}/>
+          <ClassCard id={classData.id} className={classData.className} subjectId={classData.SubjectId} schoolId={classData.SchoolId} key={classData.id}/>
         ))}
         
         {data.length === 0 && <span>No results found</span>}
