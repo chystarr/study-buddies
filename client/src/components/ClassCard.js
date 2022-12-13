@@ -11,9 +11,6 @@ function ClassCard({ id, className, subjectId, schoolId }) {
   useEffect(() => {
     async function getData () {
       try {
-        // let classResponse = await fetch("/api/classes/" + id);
-        // let classData = await classResponse.json();
-        // setClassInfo(classData);
         let subjectResponse = await fetch("/api/subjects/" + subjectId);
         let subjectData = await subjectResponse.json();
         setSubjectInfo(subjectData);

@@ -12,6 +12,7 @@ function ClassDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [alreadyEnrolled, setAlreadyEnrolled] = useState(false);
+  const [newGroupName, setNewGroupName] = useState("");
   let params = useParams();
 
   useEffect(() => {
@@ -107,8 +108,68 @@ function ClassDetailsPage() {
     }
   }
 
+  /*
+  function CreateNewGroup() {
+    const handleInputChange = event => {
+      setNewGroupName(event.target.value);
+      console.log(newGroupName);
+    }
+
+    const handleSubmit = event => {
+      event.preventDefault();
+      console.log("Form was submitted!");
+      console.log(newGroupName);
+    }
+
+    return (
+      <form onSubmit={handleSubmit}>
+      <input type="text" className="form-control" placeholder="Enter a name for the new group"
+      value={newGroupName} onChange={handleInputChange}/>
+      <button type="submit" className="btn btn-primary">
+        Create Group
+      </button>
+      </form>
+    );
+  }
+  */
+
+  const handleInputChange = (event) => {
+    setNewGroupName(event.target.value);
+  };
+
+  const handleSubmit =  async (event) => {
+    event.preventDefault();
+    try {
+      console.log(newGroupName);
+      console.log(classInfo.id);
+      console.log(JSON.stringify({
+        groupName: newGroupName,
+        ClassId: classInfo.id,
+      }));
+      let response = await fetch("/api/groups", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          groupName: newGroupName,
+          ClassId: classInfo.id,
+        }),
+      });
+
+      if (!response.ok) {
+        setError(true);
+      }
+    } catch (error) {
+      console.error("Server error while creating a group", error);
+      setError(true);
+    }
+  };
+
   return (
     <div>
+    {error && <ErrorAlert details={"Failed to save the content"} />}
     <p>This is the {classInfo.className} details page</p>
     <EnrollButton />
     <p>Enrolled students:</p>
@@ -116,6 +177,15 @@ function ClassDetailsPage() {
       <StudentCard firstName={studentData.firstName} lastName={studentData.lastName} major={studentData.major} key={studentData.id} />
     ))}
     <p>Study groups:</p>
+
+    <form onSubmit={handleSubmit}>
+      <input type="text" className="form-control" placeholder="Enter a name for the new group"
+      value={newGroupName} onChange={handleInputChange}/>
+      <button type="submit" className="btn btn-primary">
+        Create Group
+      </button>
+    </form>
+
     {groups.map((groupData) => (
       <GroupCard id={groupData.id} groupName={groupData.groupName} className={classInfo.className} enrolledInClass={alreadyEnrolled} key={groupData.id} />
     ))}
