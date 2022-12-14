@@ -7,6 +7,8 @@ import GroupCard from "../components/GroupCard";
 
 function ClassDetailsPage() {
   const [classInfo, setClassInfo] = useState(null);
+  const [subjectInfo, setSubjectInfo] = useState(null);
+  const [schoolInfo, setSchoolInfo] = useState(null);
   const [students, setStudents] = useState([]);
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -71,6 +73,31 @@ function ClassDetailsPage() {
       // clean up function
     };
   }, [params.id, alreadyEnrolled]);
+
+  useEffect(() => {
+    async function getData () {
+      try {
+        let subjectInfoResponse = await fetch("/api/subjects/" + classInfo.SubjectId);
+        let subjectInfoData = await subjectInfoResponse.json();
+        setSubjectInfo(subjectInfoData);
+
+        let schoolInfoResponse = await fetch("/api/schools/" + classInfo.SchoolId);
+        let schoolInfoData = await schoolInfoResponse.json();
+        setSchoolInfo(schoolInfoData);
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching /api/subjects/" + classInfo.SubjectId + " or /api/schools/" + classInfo.SchoolId, error);
+        setError(true);
+      }
+    }
+    
+    getData();
+
+    return () => {
+      // clean up function
+    };
+  }, [classInfo]);
 
   if (error) {
     return(
@@ -154,6 +181,7 @@ function ClassDetailsPage() {
     <div>
       {error && <ErrorAlert details={"Failed to save the content"} />}
       <p>This is the {classInfo.className} details page</p>
+      <p>Subject: {subjectInfo.subjectName} School: {schoolInfo.schoolName}</p>
       <div className="container">
         <div className="row">
           <div className="col">
