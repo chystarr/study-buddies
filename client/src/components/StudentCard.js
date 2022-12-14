@@ -1,6 +1,5 @@
 import React from "react";
 
-// should have link to specific profile page in the future
 function StudentCard({ firstName, lastName, major }) {
   return(
     <div className="card border-dark mt-3 mb-3">

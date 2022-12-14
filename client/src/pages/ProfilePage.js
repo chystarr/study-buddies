@@ -48,16 +48,30 @@ function ProfilePage() {
 
   return(
       <div>
-        <p>This is the Profile page</p>
-        <p>The user's info is displayed here</p>
-        <p>My Classes</p>
-        {classes.map((classData) => (
-          <ClassCard id={classData.id} className={classData.className} subjectId={classData.SubjectId} schoolId={classData.SchoolId} key={classData.id} />
-        ))}
-        <p>My Groups</p>
-        {groups.map((groupData) => (
-          <GroupCard id={groupData.id} groupName={groupData.groupName} className={groupData.classId} key={groupData.id} />
-        ))}
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <h2>Profile</h2>
+            </div>
+            <div className="col">
+              Settings
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <h4>My Classes</h4>
+              {classes.map((classData) => (
+                <ClassCard id={classData.id} className={classData.className} subjectId={classData.SubjectId} schoolId={classData.SchoolId} key={classData.id} />
+              ))}
+            </div>
+            <div className="col">
+              <h4>My Groups</h4>
+              {groups.map((groupData) => (
+                <GroupCard id={groupData.id} groupName={groupData.groupName} className={groupData.classId} key={groupData.id} />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
   );
 }

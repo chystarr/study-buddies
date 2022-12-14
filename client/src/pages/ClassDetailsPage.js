@@ -208,13 +208,11 @@ function ClassDetailsPage() {
         </div>
         <div className="row">
           <div className="col">
-            
             {students.map((studentData) => (
               <StudentCard firstName={studentData.firstName} lastName={studentData.lastName} major={studentData.major} key={studentData.id} />
             ))}
           </div>
           <div className="col">
-
             {groups.map((groupData) => (
               <GroupCard id={groupData.id} groupName={groupData.groupName} className={classInfo.className} enrolledInClass={alreadyEnrolled} key={groupData.id} />
             ))}
