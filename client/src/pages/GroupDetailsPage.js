@@ -43,15 +43,34 @@ function GroupDetailsPage() {
     return <LoadingSpinner />;
   }
 
+  function NumMembers() {
+    if (members.length > 1) {
+      return(<h5>{members.length} group members</h5>);
+    } else {
+      return(<h5>1 group member</h5>);
+    }
+  }
+
   return (
     <div>
-    <p>This is the {groupInfo.groupName} details page</p>
-    <p>Group members:</p>
-    {members.map((memberData) => (
-      <StudentCard firstName={memberData.firstName} lastName={memberData.lastName} major={memberData.major} key={memberData.id} />
-    ))}
-    <p>Add discussion/comment section here</p>
-  </div>
+      <h1>{groupInfo.groupName}</h1>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <button type="button" className="btn btn-primary btn-lg mt-3 mb-3">Invite a student</button>
+            <NumMembers />
+            {members.map((memberData) => (
+              <StudentCard firstName={memberData.firstName} lastName={memberData.lastName} major={memberData.major} key={memberData.id} />
+            ))}
+          </div>
+          <div className="col-8">
+            <div>
+              Discussion section coming soon
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
