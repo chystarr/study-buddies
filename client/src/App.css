@@ -2,17 +2,49 @@
 #header-home {
     font-weight: bold;
     font-size: 30px;
-
+    width: 700px;
+    height: 250px;
+    margin: 250px;
+    display: inline;
+    justify-content: center;
+    align-items: center;
 }
 
 #p-home {
     font-weight: normal;
-    font-size: 20px;
+    font-size: 22px;
+    color: #f0ffff;
 }
 
-#about-us , #view-git-button {
-    display: inline;
+#h1-home{
+    font-weight: bold;
+    font-size: 35px;
+    color: #f0ffff;
+}
+
+#about-us {
+    display: inline-block;
     width: 150px;
     height: 40px;
-    padding-inline-end: 10px;   
+    padding-inline-end: 10px;
+    background-color: white;   
+}
+
+#view-git-button {
+    display: inline-block;
+    width: 150px;
+    height: 40px;
+    padding-inline-end: 10px;
+    margin-left: 10px;
+    background-color: white;
+}
+
+#sample-video{
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
 }
