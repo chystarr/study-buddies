@@ -53,7 +53,7 @@ function GroupDetailsPage() {
 
   return (
     <div>
-      <h1>{groupInfo.groupName}</h1>
+      <h1 className="mb-5">{groupInfo.groupName}</h1>
       <div className="container">
         <div className="row">
           <div className="col">
@@ -63,10 +63,8 @@ function GroupDetailsPage() {
               <StudentCard firstName={memberData.firstName} lastName={memberData.lastName} major={memberData.major} key={memberData.id} />
             ))}
           </div>
-          <div className="col-8">
-            <div>
-              Discussion section coming soon
-            </div>
+          <div className="col-8 border border-dark">
+            <h3>Discussion section coming soon</h3>
           </div>
         </div>
       </div>

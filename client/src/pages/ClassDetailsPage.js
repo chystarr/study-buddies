@@ -181,13 +181,12 @@ function ClassDetailsPage() {
     <div>
       {error && <ErrorAlert details={"Failed to save the content"} />}
       <div className="container">
-        <div className="row">
-          <div className="col">
+        <div className="row mb-3">
+          <div className="col d-flex justify-content-start mt-4">
             <h1>{classInfo.className}</h1>
           </div>
-          <div className="col">
-            <h2>{subjectInfo.subjectName}</h2>
-            <h2>{schoolInfo.schoolName}</h2>
+          <div className="col d-flex justify-content-end mt-4">
+            <h4>{subjectInfo.subjectName}, {schoolInfo.schoolName}</h4>
           </div>
         </div>
         <div className="row">
