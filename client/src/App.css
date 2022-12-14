@@ -4,7 +4,7 @@
     font-size: 30px;
     width: 700px;
     height: 250px;
-    margin: 250px;
+    margin: 300px;
     display: inline;
     justify-content: center;
     align-items: center;
@@ -29,6 +29,12 @@
     padding-inline-end: 10px;
     background-color: white;   
 }
+
+#view-linkedIn-button{
+    width: 175px;
+    height: 60px;
+}
+
 
 #view-git-button {
     display: inline-block;
