@@ -7,6 +7,8 @@ import GroupCard from "../components/GroupCard";
 
 function ClassDetailsPage() {
   const [classInfo, setClassInfo] = useState(null);
+  const [subjectInfo, setSubjectInfo] = useState(null);
+  const [schoolInfo, setSchoolInfo] = useState(null);
   const [students, setStudents] = useState([]);
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -72,6 +74,31 @@ function ClassDetailsPage() {
     };
   }, [params.id, alreadyEnrolled]);
 
+  useEffect(() => {
+    async function getData () {
+      try {
+        let subjectInfoResponse = await fetch("/api/subjects/" + classInfo.SubjectId);
+        let subjectInfoData = await subjectInfoResponse.json();
+        setSubjectInfo(subjectInfoData);
+
+        let schoolInfoResponse = await fetch("/api/schools/" + classInfo.SchoolId);
+        let schoolInfoData = await schoolInfoResponse.json();
+        setSchoolInfo(schoolInfoData);
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching /api/subjects/" + classInfo.SubjectId + " or /api/schools/" + classInfo.SchoolId, error);
+        setError(true);
+      }
+    }
+    
+    getData();
+
+    return () => {
+      // clean up function
+    };
+  }, [classInfo]);
+
   if (error) {
     return(
       <ErrorAlert details={"Class with id=" + params.id + " not found"} />
@@ -102,36 +129,19 @@ function ClassDetailsPage() {
 
   function EnrollButton() {
     if (!alreadyEnrolled) {
-      return <button onClick={handleClick}>Enroll</button>;
+      return(
+        <div>
+          <button type="button" className="btn btn-primary btn-block" onClick={handleClick}>Enroll</button>
+        </div>
+      );
     } else {
-      return <button>Already enrolled</button>;
+      return(
+        <div>
+          <button type="button" className="btn btn-primary btn-block">Already enrolled</button>
+        </div>
+      );
     }
   }
-
-  /*
-  function CreateNewGroup() {
-    const handleInputChange = event => {
-      setNewGroupName(event.target.value);
-      console.log(newGroupName);
-    }
-
-    const handleSubmit = event => {
-      event.preventDefault();
-      console.log("Form was submitted!");
-      console.log(newGroupName);
-    }
-
-    return (
-      <form onSubmit={handleSubmit}>
-      <input type="text" className="form-control" placeholder="Enter a name for the new group"
-      value={newGroupName} onChange={handleInputChange}/>
-      <button type="submit" className="btn btn-primary">
-        Create Group
-      </button>
-      </form>
-    );
-  }
-  */
 
   const handleInputChange = (event) => {
     setNewGroupName(event.target.value);
@@ -169,26 +179,31 @@ function ClassDetailsPage() {
 
   return (
     <div>
-    {error && <ErrorAlert details={"Failed to save the content"} />}
-    <p>This is the {classInfo.className} details page</p>
-    <EnrollButton />
-    <p>Enrolled students:</p>
-    {students.map((studentData) => (
-      <StudentCard firstName={studentData.firstName} lastName={studentData.lastName} major={studentData.major} key={studentData.id} />
-    ))}
-    <p>Study groups:</p>
-
-    <form onSubmit={handleSubmit}>
-      <input type="text" className="form-control" placeholder="Enter a name for the new group"
-      value={newGroupName} onChange={handleInputChange}/>
-      <button type="submit" className="btn btn-primary">
-        Create Group
-      </button>
-    </form>
-
-    {groups.map((groupData) => (
-      <GroupCard id={groupData.id} groupName={groupData.groupName} className={classInfo.className} enrolledInClass={alreadyEnrolled} key={groupData.id} />
-    ))}
+      {error && <ErrorAlert details={"Failed to save the content"} />}
+      <p>This is the {classInfo.className} details page</p>
+      <p>Subject: {subjectInfo.subjectName} School: {schoolInfo.schoolName}</p>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <EnrollButton />
+            {students.map((studentData) => (
+              <StudentCard firstName={studentData.firstName} lastName={studentData.lastName} major={studentData.major} key={studentData.id} />
+            ))}
+          </div>
+          <div className="col">
+            <form onSubmit={handleSubmit}>
+              <input type="text" className="form-control input-sm" placeholder="Enter a name for the new group"
+              value={newGroupName} onChange={handleInputChange}/>
+              <button type="submit" className="btn btn-primary">
+                Create Group
+              </button>
+            </form>
+            {groups.map((groupData) => (
+              <GroupCard id={groupData.id} groupName={groupData.groupName} className={classInfo.className} enrolledInClass={alreadyEnrolled} key={groupData.id} />
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
